@@ -7,9 +7,9 @@ import kotlin.system.measureTimeMillis
  * Created by @author Alpesh
  *
  */
-val n = 1_000_000 // number of threads to launch
+val n = 1_0000 // number of threads to launch
 var counter = 0
-var counterJavaMultiThread = 0;
+var counterJavaMultiThread = 0
 fun main() {
     runBlocking {
         massiveRun()
@@ -21,16 +21,16 @@ fun main() {
 
 class MyThread : Thread() {
     override fun run() {
-        counterJavaMultiThread ++
+        counterJavaMultiThread++
     }
 }
 suspend fun massiveRun() {
     val time = measureTimeMillis {
         coroutineScope { // scope for coroutines
             repeat(n) {
-                    launch {
-                         counter++
-                    }
+                launch {
+                    counter++
+                }
             }
         }
     }
@@ -38,13 +38,13 @@ suspend fun massiveRun() {
 }
 fun massiveRunMultiThread() {
     val time = measureTimeMillis {
-            val threads = mutableListOf<MyThread>()
-            repeat(n) {
-                val thread = MyThread()
-                threads.add(thread)
-                thread.start()
-            }
-            threads.forEach{it.join()}
+        val threads = mutableListOf<MyThread>()
+        repeat(n) {
+            val thread = MyThread()
+            threads.add(thread)
+            thread.start()
+        }
+        threads.forEach { it.join() }
     }
     println("Completed java multi thread $n actions in $time ms")
 }
